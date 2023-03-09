@@ -17,5 +17,5 @@ body {
 }
 
 .categoryBtn {
-    @apply px-5 py-3 rounded-lg bg-slate-300 text-black mx-2 w-full;
+    @apply px-5 py-3 rounded-lg bg-slate-300 text-slate-900 mx-2 w-full font-semibold;
 }

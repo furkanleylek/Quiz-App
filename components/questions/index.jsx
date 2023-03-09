@@ -7,19 +7,13 @@ function question(quizType, index, handleNext, questionNumber) {
 
     return (
         <div className=' h-full '>
-            {
-                questionNumber < 11 && (
-                    <div className='mt-12 flex flex-col justify-center items-center mx-4 '>
-                        <h1 key={quizType[index].id}>{quizType[index].question}</h1>
-                        <Answers quizType={quizType[index]} handleNext={handleNext} />
-                    </div>
-                )
-            }
+            <div className='mt-12 flex flex-col justify-center items-center mx-4 gap-12 '>
+                <h1 key={quizType[index].id} className="text-3xl text-center " >{quizType[index].question}</h1>
+                <Answers quizType={quizType[index]} handleNext={handleNext} />
+            </div>
             {
                 questionNumber == 11 && (
-                    <div>
-                        <GameOver />
-                    </div>
+                    <GameOver />
                 )
             }
         </div>
@@ -41,8 +35,14 @@ function Questions({ sportsQuiz, randomQuiz, filmQuiz, historyQuiz, musicQuiz, g
         }
     };
     return (
-        <div className='h-full mt-12'>
-            <h1 className="text-3xl font-bold italic text-center">Quiz App</h1>
+        <div className='h-full mt-12 flex flex-col justify-center items-center'>
+            {questionNumber < 11 && (
+                <div>
+                    <div className='text-center md:mt-16'>
+                        <span className='border-[6px] border-orange-500 py-4 px-7 text-3xl text-center font-extrabold rounded-[100%]'>{questionNumber}</span>
+                    </div>
+                </div>
+            )}
             {category == "sports" && (
                 question(sportsQuiz, index, handleNext, questionNumber)
             )}

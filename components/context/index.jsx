@@ -12,6 +12,8 @@ function Provider({ children }) {
     const [question, setQuestion] = useState(false)
     const [category, setCategory] = useState('')
     const [correctCount, setCorrectCount] = useState(0)
+    const [progress, setProgress] = useState(0)
+    const [progressColor, setProgressColor] = useState([])
 
     const data = {
         questionNumber,
@@ -21,7 +23,11 @@ function Provider({ children }) {
         category,
         setCategory,
         correctCount,
-        setCorrectCount
+        setCorrectCount,
+        progress,
+        setProgress,
+        progressColor,
+        setProgressColor
     }
 
     return (

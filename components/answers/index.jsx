@@ -2,12 +2,12 @@
 import React, { useState, useEffect } from 'react'
 import CheckAnswer from '../checkAnswer'
 import { useQuestionsContext } from '../context'
-
+import ProgressBar from '../progressBar'
 
 function Answers({ quizType, handleNext }) {
 
 
-    const { setQuestionNumber } = useQuestionsContext()
+    const { questionNumber, setQuestionNumber, setProgress, setProgressColor } = useQuestionsContext()
 
 
     const [currentAnswer, setCurrentAnswer] = useState('')
@@ -47,14 +47,23 @@ function Answers({ quizType, handleNext }) {
     useEffect(() => {
 
         function changeAnimationCheck(answerOption, answerOptionId, cancel) {
+
             if (answerOption == correctAnswer && cancel == 0) {
-                document.getElementById(answerOptionId).style.cssText = 'background:green'
+                document.getElementById(answerOptionId).style.cssText = 'background:green ; opacity:1'
             }
             if (cancel == 1) {
                 document.getElementById(answerOptionId).style.cssText = 'background:#CBD5E1'
             }
         }
         if (checkAnswer == 0) {
+            setProgress(questionNumber)
+
+            if (currentAnswer == correctAnswer) {
+                setProgressColor((e) => [...e, 'green'])
+            }
+            else if (currentAnswer !== correctAnswer) {
+                setProgressColor((e) => [...e, 'red'])
+            }
             if (answerId.length > 0) {
                 if (currentAnswer !== correctAnswer) {
                     document.getElementById(answerId).style.cssText = 'background:red'
@@ -80,17 +89,17 @@ function Answers({ quizType, handleNext }) {
     }, [checkAnswer])
 
 
-
     return (
         <div className='flex flex-col justify-center items-center w-3/4 lg:w-1/2 '>
             <CheckAnswer currentAnswer={currentAnswer} correctAnswer={correctAnswer} checkAnswer={checkAnswer} />
             <div className='flex flex-col items-center justify-center gap-4 w-full '>
-                <button className='categoryBtn hover:text-white disabled:opacity-50 disabled:pointer-events-none' disabled={!checkAnswer && true} id="answer1" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex1]), setCheckAnswer(0), setAnswerId("answer1") }} > {allAnswers[randomIndex1]}</button>
-                <button className='categoryBtn hover:text-white disabled:opacity-50 disabled:pointer-events-none' disabled={!checkAnswer && true} id="answer2" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex2]), setCheckAnswer(0), setAnswerId("answer2") }} > {allAnswers[randomIndex2]}</button>
-                <button className='categoryBtn hover:text-white disabled:opacity-50 disabled:pointer-events-none' disabled={!checkAnswer && true} id="answer3" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex3]), setCheckAnswer(0), setAnswerId("answer3") }} > {allAnswers[randomIndex3]}</button>
-                <button className='categoryBtn hover:text-white disabled:opacity-50 disabled:pointer-events-none' disabled={!checkAnswer && true} id="answer4" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex4]), setCheckAnswer(0), setAnswerId("answer4") }} > {allAnswers[randomIndex4]}</button>
+                <button className='categoryBtn hover:text-orange-500 disabled:opacity-30 disabled:text-white disabled:pointer-events-none' disabled={!checkAnswer && true} id="answer1" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex1]), setCheckAnswer(0), setAnswerId("answer1") }} > {allAnswers[randomIndex1]}</button>
+                <button className='categoryBtn hover:text-orange-500 disabled:opacity-30 disabled:text-white disabled:pointer-events-none' disabled={!checkAnswer && true} id="answer2" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex2]), setCheckAnswer(0), setAnswerId("answer2") }} > {allAnswers[randomIndex2]}</button>
+                <button className='categoryBtn hover:text-orange-500 disabled:opacity-30 disabled:text-white disabled:pointer-events-none' disabled={!checkAnswer && true} id="answer3" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex3]), setCheckAnswer(0), setAnswerId("answer3") }} > {allAnswers[randomIndex3]}</button>
+                <button className='categoryBtn hover:text-orange-500 disabled:opacity-30 disabled:text-white disabled:pointer-events-none' disabled={!checkAnswer && true} id="answer4" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex4]), setCheckAnswer(0), setAnswerId("answer4") }} > {allAnswers[randomIndex4]}</button>
             </div>
-            <button className='w-3/4 h-full px-5 py-3 rounded mt-12 bg-orange-500' onClick={() => { handleNext(), setCheckAnswer(1), random(), setQuestionNumber((e) => { return e + 1 }) }}>Next Question</button>
+            <button className='w-3/4 h-full px-5 py-3 rounded mt-12 bg-orange-500 mb-8' onClick={() => { handleNext(), setCheckAnswer(1), random(), setQuestionNumber((e) => { return e + 1 }) }}>Next Question</button>
+            <ProgressBar />
         </div>
     )
 }

@@ -15,11 +15,6 @@ function CheckAnswer({ currentAnswer, correctAnswer, checkAnswer }) {
 
     return (
         <div>
-            <div className='text-center'>
-                <span>{questionNumber} / 12 </span>
-            </div>
-            <div>
-            </div>
         </div>
     )
 
