@@ -2,7 +2,7 @@ import React from 'react'
 import { useQuestionsContext } from '../context'
 function ProgressBar() {
 
-    const { questionNumber, progress, progressColor } = useQuestionsContext()
+    const { progress, progressColor } = useQuestionsContext()
 
     return (
         <div className='border-2 border-slate-700 rounded w-[calc(100%+80px)] h-4 flex mb-8'>
