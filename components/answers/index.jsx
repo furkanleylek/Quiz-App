@@ -1,18 +1,20 @@
 'use client'
-import { check } from 'prettier'
-import React, { useState, useContext, useEffect } from 'react'
-import { BiArrowBack } from 'react-icons/bi'
+import React, { useState, useEffect } from 'react'
 import CheckAnswer from '../checkAnswer'
-import { Context } from '../context'
+import { useQuestionsContext } from '../context'
 
-function Answers({ quizType, index, handleNext, handleBack }) {
 
-    // const { random } = useContext(Context)
+function Answers({ quizType, handleNext }) {
+
+
+    const { setQuestionNumber } = useQuestionsContext()
+
+
     const [currentAnswer, setCurrentAnswer] = useState('')
     const [correctAnswer, setCorrectAnswer] = useState('')
     const [checkAnswer, setCheckAnswer] = useState(1)
     const [answerId, setAnswerId] = useState('')
-    const [correct, setCorrect] = useState(false)
+
     const allAnswers = [
         quizType.correctAnswer,
         quizType.incorrectAnswers[0],
@@ -20,6 +22,7 @@ function Answers({ quizType, index, handleNext, handleBack }) {
         quizType.incorrectAnswers[2]
     ]
 
+    /* mix answers options */
     function random() {
         window.randomIndex1 = (Math.floor(Math.random() * 4))
         window.randomIndex2 = (Math.floor(Math.random() * 4))
@@ -40,24 +43,38 @@ function Answers({ quizType, index, handleNext, handleBack }) {
         random()
     }
 
+    /* use animation after choose option */
     useEffect(() => {
-        window.oldAnswerId = ''
-        console.log("answer", answerId)
-        if (checkAnswer == 0) {
-            oldAnswerId = answerId
-            if (answerId.length > 0) {
-                if (currentAnswer == correctAnswer) {
-                    document.getElementById(answerId).style.background = 'red'
-                }
+
+        function changeAnimationCheck(answerOption, answerOptionId, cancel) {
+            if (answerOption == correctAnswer && cancel == 0) {
+                document.getElementById(answerOptionId).style.cssText = 'background:green'
+            }
+            if (cancel == 1) {
+                document.getElementById(answerOptionId).style.cssText = 'background:#CBD5E1'
             }
         }
-        if (checkAnswer == 1) {
-            console.log("old", oldAnswerId)
-            if (oldAnswerId.length > 0) {
-                if (currentAnswer == correctAnswer) {
-                    document.getElementById(oldAnswerId).style.background = ''
+        if (checkAnswer == 0) {
+            if (answerId.length > 0) {
+                if (currentAnswer !== correctAnswer) {
+                    document.getElementById(answerId).style.cssText = 'background:red'
                 }
+                changeAnimationCheck(allAnswers[randomIndex1], 'answer1', 0)
+                changeAnimationCheck(allAnswers[randomIndex2], 'answer2', 0)
+                changeAnimationCheck(allAnswers[randomIndex3], 'answer3', 0)
+                changeAnimationCheck(allAnswers[randomIndex4], 'answer4', 0)
             }
+        }
+
+        /* back old styles */
+        if (checkAnswer == 1) {
+            if (answerId.length > 0) {
+                document.getElementById(answerId).style.cssText = 'background:#CBD5E1 '
+            }
+            changeAnimationCheck('', 'answer1', 1)
+            changeAnimationCheck('', 'answer2', 1)
+            changeAnimationCheck('', 'answer3', 1)
+            changeAnimationCheck('', 'answer4', 1)
         }
 
     }, [checkAnswer])
@@ -65,17 +82,15 @@ function Answers({ quizType, index, handleNext, handleBack }) {
 
 
     return (
-        <div>
+        <div className='flex flex-col justify-center items-center w-3/4 lg:w-1/2 '>
             <CheckAnswer currentAnswer={currentAnswer} correctAnswer={correctAnswer} checkAnswer={checkAnswer} />
-            <div className='flex items-center justify-center'>
-                <button className='categoryBtn hover:text-white disabled:opacity-50' disabled={!checkAnswer && true} id="answer1" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex1]), setCheckAnswer(0), setAnswerId("answer1") }} > {allAnswers[randomIndex1]}</button>
-                <button className='categoryBtn hover:text-white disabled:opacity-50' disabled={!checkAnswer && true} id="answer2" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex2]), setCheckAnswer(0), setAnswerId("answer2") }} > {allAnswers[randomIndex2]}</button>
-                <button className='categoryBtn hover:text-white disabled:opacity-50' disabled={!checkAnswer && true} id="answer3" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex3]), setCheckAnswer(0), setAnswerId("answer3") }} > {allAnswers[randomIndex3]}</button>
-                <button className='categoryBtn hover:text-white disabled:opacity-50' disabled={!checkAnswer && true} id="answer4" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex4]), setCheckAnswer(0), setAnswerId("answer4") }} > {allAnswers[randomIndex4]}</button>
+            <div className='flex flex-col items-center justify-center gap-4 w-full '>
+                <button className='categoryBtn hover:text-white disabled:opacity-50 disabled:pointer-events-none' disabled={!checkAnswer && true} id="answer1" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex1]), setCheckAnswer(0), setAnswerId("answer1") }} > {allAnswers[randomIndex1]}</button>
+                <button className='categoryBtn hover:text-white disabled:opacity-50 disabled:pointer-events-none' disabled={!checkAnswer && true} id="answer2" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex2]), setCheckAnswer(0), setAnswerId("answer2") }} > {allAnswers[randomIndex2]}</button>
+                <button className='categoryBtn hover:text-white disabled:opacity-50 disabled:pointer-events-none' disabled={!checkAnswer && true} id="answer3" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex3]), setCheckAnswer(0), setAnswerId("answer3") }} > {allAnswers[randomIndex3]}</button>
+                <button className='categoryBtn hover:text-white disabled:opacity-50 disabled:pointer-events-none' disabled={!checkAnswer && true} id="answer4" onClick={() => { setCorrectAnswer(quizType.correctAnswer), setCurrentAnswer(allAnswers[randomIndex4]), setCheckAnswer(0), setAnswerId("answer4") }} > {allAnswers[randomIndex4]}</button>
             </div>
-            <button className='categoryBtn my-4 hover:bg-green-500' onClick={() => { handleNext(), setCheckAnswer(1), random(), setAnswerId(() => '') }}>Next Question</button>
-            <button className='bg-red-500 w-4 h-4' onClick={() => { handleBack(), setCheckAnswer(0) }} ><BiArrowBack /></button>
-            <h3>{answerId}</h3>
+            <button className='w-3/4 h-full px-5 py-3 rounded mt-12 bg-orange-500' onClick={() => { handleNext(), setCheckAnswer(1), random(), setQuestionNumber((e) => { return e + 1 }) }}>Next Question</button>
         </div>
     )
 }
