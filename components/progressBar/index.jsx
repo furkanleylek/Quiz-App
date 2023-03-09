@@ -1,4 +1,3 @@
-'use client'
 import React from 'react'
 import { useQuestionsContext } from '../context'
 function ProgressBar() {
