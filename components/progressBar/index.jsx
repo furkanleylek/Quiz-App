@@ -8,6 +8,9 @@ function ProgressBar() {
         <div className='border-2 border-slate-700 rounded-3xl w-[calc(100%+80px)] h-4 flex mb-8'>
             <h1>{progress}</h1>
             <h1>{progressColor}</h1>
+            {progress >= 1 && (
+                <h1>bg-{progressColor[0]}-500 </h1>
+            )}
             <span className={progress >= 1 && `bg-${progressColor[0]}-500 h-full w-[10%] border-r-2 rounded-l-3xl border-slate-900`}></span>
             <span className={progress >= 2 && `bg-${progressColor[1]}-500 h-full w-[10%] border-r-2 border-slate-900`}></span>
             <span className={progress >= 3 && `bg-${progressColor[2]}-500 h-full w-[10%] border-r-2 border-slate-900`}></span>
