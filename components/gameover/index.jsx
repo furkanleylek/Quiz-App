@@ -7,7 +7,7 @@ function GameOver() {
     return (
         <div>
             <div className="fixed w-full h-full flex justify-center items-center inset-0 
-        after:content[''] after:w-full after:opacity-50 after:h-full after:bg-slate-900 after:fixed  after:inset-0 z-50
+             after:content[''] after:w-full after:opacity-50 after:h-full after:bg-slate-900 after:fixed  after:inset-0 z-50
         ">
                 <div className='shadow-modal w-[90%] max-w-[550px] h-2/5 rounded bg-white opacity-100 relative z-50 flex flex-col justify-center items-center gap-4'>
                     <h3 className='text-4xl text-slate-900 font-bold'>Congrats !</h3>
