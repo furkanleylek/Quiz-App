@@ -4,7 +4,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head />
-      <body className='h-full bg-slate-900 text-white'>
+      <body className='h-full text-white'>
         <Provider>
           {children}
         </Provider>
