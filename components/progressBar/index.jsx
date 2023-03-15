@@ -6,7 +6,9 @@ function ProgressBar() {
 
     return (
 
-        <div className='border-t-2 w-[calc(100%+80px)] h-[1px] flex items-center justify-between mb-8'>
+        <div className='border-t-2 w-[calc(100%+100px)] lg:w-[calc(100%+400px)] h-[1px] flex items-center justify-between mb-8'>
+            <span className='hidden bg-green-500'></span>
+            <span className='hidden bg-red-500'></span>
             <span className={progress >= 1 ? `border-2 border-transparent text-[10px] bg-${progressColor[0]}-500 rounded-full p-1 px-2` : `border-2 border-transparent text-[10px] bg-slate-700 rounded-full p-1 px-2`}>1</span>
             <span className={progress >= 2 ? `border-2 border-transparent text-[10px] bg-${progressColor[1]}-500 rounded-full p-1 px-2` : `border-2 border-transparent text-[10px] bg-slate-700 rounded-full p-1 px-2`}>2</span>
             <span className={progress >= 3 ? `border-2 border-transparent text-[10px] bg-${progressColor[2]}-500 rounded-full p-1 px-2` : `border-2 border-transparent text-[10px] bg-slate-700 rounded-full p-1 px-2`}>3</span>
