@@ -1,11 +1,12 @@
 'use client'
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { animateScroll as scroll } from "react-scroll";
 
 const ExampleForm = () => {
     const firstNameRef = useRef(null);
     const lastNameRef = useRef(null);
     const emailRef = useRef(null);
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -13,17 +14,37 @@ const ExampleForm = () => {
     };
 
     const scrollToRef = (ref) => {
-        scroll.scrollTo(ref.current.offsetTop - 16);
+        if (isKeyboardOpen) {
+            scroll.scrollTo(ref.current.offsetTop - 16);
+        }
     };
 
+    useEffect(() => {
+        const handleFocus = () => {
+            setIsKeyboardOpen(true);
+        };
+
+        const handleBlur = () => {
+            setIsKeyboardOpen(false);
+        };
+
+        window.addEventListener("focusin", handleFocus);
+        window.addEventListener("focusout", handleBlur);
+
+        return () => {
+            window.removeEventListener("focusin", handleFocus);
+            window.removeEventListener("focusout", handleBlur);
+        };
+    }, []);
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="min-h-screen flex items-center justify-center  bg-white">
             <form
                 className="bg-gray-100 rounded-lg p-6 w-full max-w-md"
                 onSubmit={handleSubmit}
             >
-                <h2 className="text-2xl mb-4">Example Form</h2>
-                <div className="mb-4">
+                <h2 className="text-2xl mb-8">Example Form</h2>
+                <div className="mb-12">
                     <label className="block text-gray-700 font-bold mb-2" htmlFor="firstName">
                         First Name
                     </label>
@@ -35,7 +56,7 @@ const ExampleForm = () => {
                         onFocus={() => scrollToRef(firstNameRef)}
                     />
                 </div>
-                <div className="mb-4">
+                <div className="mb-24">
                     <label className="block text-gray-700 font-bold mb-2" htmlFor="lastName">
                         Last Name
                     </label>
@@ -47,43 +68,7 @@ const ExampleForm = () => {
                         onFocus={() => scrollToRef(lastNameRef)}
                     />
                 </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
-                        Email Address
-                    </label>
-                    <input
-                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="email"
-                        type="email"
-                        ref={emailRef}
-                        onFocus={() => scrollToRef(emailRef)}
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2" htmlFor="firstName">
-                        First Name
-                    </label>
-                    <input
-                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="firstName"
-                        type="text"
-                        ref={firstNameRef}
-                        onFocus={() => scrollToRef(firstNameRef)}
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2" htmlFor="lastName">
-                        Last Name
-                    </label>
-                    <input
-                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="lastName"
-                        type="text"
-                        ref={lastNameRef}
-                        onFocus={() => scrollToRef(lastNameRef)}
-                    />
-                </div>
-                <div className="mb-4">
+                <div className="mb-24">
                     <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
                         Email Address
                     </label>
@@ -108,4 +93,4 @@ const ExampleForm = () => {
     );
 };
 
-export default ExampleForm;
+export default ExampleForm
